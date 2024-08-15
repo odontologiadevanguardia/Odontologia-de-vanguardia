@@ -282,4 +282,62 @@ footer {
     bottom: 0;
     width: 100%;
 }
-        
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    header .container {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    nav ul {
+        flex-direction: column;
+        width: 100%;
+        padding: 0;
+    }
+
+    nav li {
+        margin: 10px 0;
+    }
+
+    .product-service-info {
+        flex-direction: column;
+    }
+
+    .product-info, .service-info {
+        max-width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .service-item, .product-item, .review-item, .team-member {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    header h1 {
+        font-size: 1.5em;
+    }
+
+    nav a {
+        font-size: 0.9em;
+    }
+
+    .product-info h3, .service-info h3, .service-item h3, .product-item h3, .review-item h3, .team-member h3 {
+        font-size: 1.1em;
+    }
+
+    .product-info p, .service-info p, .service-item p, .product-item p, .review-item p, .team-member p {
+        font-size: 0.8em;
+    }
+
+    .team-member img {
+        width: 150px;
+        height: 150px;
+    }
+
+    .review-item img {
+        width: 80px;
+        height: 80px;
+    }
+}
