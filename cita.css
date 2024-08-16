@@ -78,7 +78,7 @@ body {
     outline: none;
 }
 
-.btn-submit, .btn-consultar {
+.btn-submit, .btn-consultar, .btn-cancelar {
     width: 100%;
     padding: 15px;
     border: none;
@@ -104,6 +104,14 @@ body {
 
 .btn-consultar:hover {
     background: #218838;
+}
+
+.btn-cancelar {
+    background: #dc3545; /* Color rojo para el botón Cancelar */
+}
+
+.btn-cancelar:hover {
+    background: #c82333;
 }
 
 .resultado-cita {
