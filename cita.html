@@ -11,9 +11,11 @@
         <div class="appointment-box">
             <h2>Gestión de Citas</h2>
             <div class="form-grid">
+                <!-- Formulario para guardar una cita -->
                 <div class="form-item">
                     <h3>Guardar Cita</h3>
                     <form id="form-solicitar-cita" action="guardar_cita.php" method="post">
+                        <!-- Campos del formulario -->
                         <div class="form-group">
                             <label for="name">Nombre Completo:</label>
                             <input type="text" id="name" name="name" placeholder="Tu nombre completo" required>
@@ -42,15 +44,18 @@
                     </form>
                 </div>
 
+                <!-- Formulario para consultar y cancelar una cita -->
                 <div class="form-item">
                     <h3>Consultar Cita</h3>
-                    <form id="form-consultar-cita" action="consultar_cita.php" method="get">
+                    <form id="form-consultar-cita">
                         <div class="form-group">
                             <label for="name-consulta">Nombre Completo:</label>
                             <input type="text" id="name-consulta" name="name-consulta" placeholder="Tu nombre completo" required>
                         </div>
                         <button type="submit" class="btn-consultar">Consultar Cita</button>
+                        <button type="button" class="btn-cancelar" id="btn-cancelar">Cancelar Cita</button>
                         <div id="resultado-cita" class="resultado-cita"></div>
+                        <input type="hidden" id="name-cita" name="name-cita" value="">
                     </form>
                 </div>
             </div>
@@ -58,16 +63,16 @@
     </div>
 
     <script>
-        // Manejo del formulario de consulta de citas
         document.getElementById('form-consultar-cita').addEventListener('submit', function(event) {
             event.preventDefault();
             const nombre = document.getElementById('name-consulta').value;
-    
+            
             fetch(`consultar_cita.php?name-consulta=${encodeURIComponent(nombre)}`)
                 .then(response => response.json())
                 .then(data => {
                     if (data.error) {
                         document.getElementById('resultado-cita').innerHTML = `<p>${data.error}</p>`;
+                        document.getElementById('name-cita').value = '';
                     } else {
                         document.getElementById('resultado-cita').innerHTML = `
                             <div class="resultado-box">
@@ -77,6 +82,7 @@
                                 <p><strong>Fecha:</strong> ${data.fecha}</p>
                                 <p><strong>Hora:</strong> ${data.hora}</p>
                                 <p><strong>Mensaje:</strong> ${data.mensaje}</p>
+                                <input type="hidden" id="name-cita" name="name-cita" value="${data.nombre}">
                             </div>
                         `;
                     }
@@ -84,7 +90,28 @@
                 .catch(error => {
                     console.error('Error:', error);
                     document.getElementById('resultado-cita').innerHTML = '<p>Ocurrió un error al consultar la cita.</p>';
+                    document.getElementById('name-cita').value = '';
                 });
+        });
+
+        document.getElementById('btn-cancelar').addEventListener('click', function() {
+            const nombreCita = document.getElementById('name-cita').value;
+            
+            if (nombreCita) {
+                fetch(`cancelar_cita.php?name-cita=${encodeURIComponent(nombreCita)}`)
+                    .then(response => response.text())
+                    .then(result => {
+                        alert(result);
+                        document.getElementById('resultado-cita').innerHTML = '';
+                        document.getElementById('name-cita').value = '';
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Ocurrió un error al cancelar la cita.');
+                    });
+            } else {
+                alert('No se ha encontrado una cita para cancelar.');
+            }
         });
     </script>
     
